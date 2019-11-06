@@ -1,0 +1,22 @@
+{
+  "name": "codefresh-assesment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "_index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/mongoose": "^5.5.29",
+    "dockerode": "^3.0.2",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.7.8"
+  },
+  "devDependencies": {
+    "@types/dockerode": "^2.5.20",
+    "eslint": "^6.6.0"
+  }
+}
