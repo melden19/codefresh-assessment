@@ -1,5 +1,4 @@
 const EventEmitter = require('events');
-const Docker = require('dockerode');
 const _ = require('lodash');
 const { selector, docker } = require('../../config');
 
@@ -8,8 +7,9 @@ class Listener extends EventEmitter {
         const filters = this._getApiFilter();
         docker.getEvents({ filters }, (err, events) => {
             if (err) {
-                console.error(err)
+                this.emit('connect_error', err);
             } else {
+                this.emit('connected');
                 console.log('Listening for starting containers...');
 
                 this.events = events;

@@ -1,4 +1,4 @@
-const { Duplex, Writable } = require('stream');
+const { Writable } = require('stream');
 
 class BaseStorageLayerWrite extends Writable {
     constructor() {

@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/mongoose": "^5.5.29",
     "dockerode": "^3.0.2",
+    "js-yaml": "^3.13.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.7.8"
   },

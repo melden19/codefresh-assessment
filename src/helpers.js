@@ -27,3 +27,11 @@ module.exports.getImageAndName = (container) => {
     output.image = _.get(container, 'Actor.Attributes.image');
     return output;
 };
+
+module.exports.delay = (time) => {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve({ StatusCode: 0 });
+        }, time);
+    });
+};

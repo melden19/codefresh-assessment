@@ -1,0 +1,10 @@
+steps:
+  step_1:
+    image: alpine
+    commands:
+      - ls
+  step_2:
+    image: docker/whalesay
+    commands:
+     - cowsay
+     - hi

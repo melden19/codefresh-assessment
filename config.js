@@ -18,5 +18,6 @@ const mongo = {
 module.exports = {
     selector,
     docker,
-    mongo
+    mongo,
+    storageLayer: process.env.STORAGE_LAYER
 };
