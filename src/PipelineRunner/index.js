@@ -70,19 +70,14 @@ class PipelineRunner {
     }
 
     _initListener() {
-        return new Promise((resolve, reject) => {
-            startListener.on('container_start', container => {
-                normalizeId(container);
-                logContainer('Attaching to container', container);
+        return startListener.start(container => {
+            normalizeId(container);
+            logContainer('Attaching to container', container);
 
-                const storage = storageFactory(storageLayer, container);
+            const storage = storageFactory(storageLayer, container);
 
-                const logger = new Logger(container.id, storage);
-                logger.run();
-            });
-            startListener.start();
-            startListener.on('connected', resolve);
-            startListener.on('connect_error', reject);
+            const logger = new Logger(container.id, storage);
+            logger.run();
         });
     }
 

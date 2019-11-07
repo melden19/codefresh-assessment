@@ -18,7 +18,7 @@ module.exports.logContainer = (message, container) => {
 };
 
 module.exports.normalizeId = (container) => {
-    container.id = container.id.slice(0, 15);
+    container.id = container.id.slice(0, 12);
 };
 
 module.exports.getImageAndName = (container) => {

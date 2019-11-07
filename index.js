@@ -6,9 +6,7 @@ const { storageLayer } = require('./config');
 
 const Logger = getLogger('write');
 
-dockerdListener.start();
-
-dockerdListener.on('container_start', container => {
+dockerdListener.start(container => {
     normalizeId(container);
     logContainer('Attaching to container', container);
 

@@ -1,25 +1,25 @@
-const EventEmitter = require('events');
 const _ = require('lodash');
 const { selector, docker } = require('../../config');
 
-class Listener extends EventEmitter {
-    start() {
-        const filters = this._getApiFilter();
-        docker.getEvents({ filters }, (err, events) => {
-            if (err) {
-                this.emit('connect_error', err);
-            } else {
-                this.emit('connected');
-                console.log('Listening for starting containers...');
-
-                this.events = events;
-                events.on('data', (chunk) => {
-                    const data = JSON.parse(chunk.toString());
-                    if (this._matchLocalFilters(data)) {
-                        this.emit('container_start', data);
-                    }
-                });
-            }
+class Listener {
+    start(containerHandler) {
+        return new Promise((resolve, reject) => {
+            const filters = this._getApiFilter();
+            docker.getEvents({ filters }, (err, events) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.log('Listening for starting containers...');
+                    this.events = events;
+                    events.on('data', (chunk) => {
+                        const containerData = JSON.parse(chunk.toString());
+                        if (this._matchLocalFilters(containerData)) {
+                            containerHandler(containerData)
+                        }
+                    });
+                    resolve();
+                }
+            });
         });
     }
 
@@ -32,6 +32,8 @@ class Listener extends EventEmitter {
             console.log('Listener already stopped');
         }
     }
+
+
 
     _matchLocalFilters(eventData) {
         const name = _.get(eventData, 'Actor.Attributes.name');
