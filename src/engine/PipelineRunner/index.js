@@ -1,13 +1,11 @@
 const { readFileSync } = require('fs');
 const _ = require('lodash');
 const yaml = require('js-yaml');
-const { docker, storageLayer } = require('../../config');
-const startListener = require('../Listener');
-const storageFactory = require('../StorageLayer/factory');
-const { logContainer, normalizeId } = require('../helpers');
-const getLogger = require('../ContainerLogger');
-
-const Logger = getLogger('write');
+const { docker, storageLayer } = require('../../../config');
+const startListener = require('../StartListener');
+const createStorageLayer = require('../../StorageLayer');
+const { logContainer, normalizeId } = require('../../helpers');
+const Logger = require('../ContainerLogger');
 
 class PipelineRunner {
     constructor(settings = {}) {
@@ -34,7 +32,6 @@ class PipelineRunner {
         } catch (err) {
             console.error('Failed to run pipeline cause of: ', err);
             this._killListener();
-
         }
     }
 
@@ -70,14 +67,13 @@ class PipelineRunner {
     }
 
     _initListener() {
-        return startListener.start(container => {
+        return startListener.start(async (container) => {
             normalizeId(container);
-            logContainer('Attaching to container', container);
 
-            const storage = storageFactory(storageLayer, container);
+            const storage = createStorageLayer(storageLayer, 'writer', container);
 
             const logger = new Logger(container.id, storage);
-            logger.run();
+            await logger.run();
         });
     }
 

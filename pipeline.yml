@@ -1,10 +1,26 @@
 steps:
-  step_1:
-    image: alpine
-    commands:
-      - ls
-  step_2:
+#  step_2:
+#    image: docker/whalesay
+#    commands:
+#      - sleep
+#      - '2'
+#  step_3:
+#    image: docker/whalesay
+#    commands:
+#      - sleep
+#      - '2'
+#  step_4:
+#    image: docker/whalesay
+#    commands:
+#      - sleep
+#      - '2'
+  step_3:
     image: docker/whalesay
     commands:
-     - cowsay
-     - hi
+      - cowsay
+      - hi
+  step_4:
+    image: docker/whalesay
+    commands:
+      - cowsay
+      - hi

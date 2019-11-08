@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const { selector, docker } = require('../../config');
+const { selector, docker } = require('../../../config');
 
-class Listener {
+class StartListener {
     start(containerHandler) {
         return new Promise((resolve, reject) => {
             const filters = this._getApiFilter();
@@ -29,7 +29,7 @@ class Listener {
             this.events = null;
             console.log('No longer listen to docker `start` events');
         } else {
-            console.log('Listener already stopped');
+            console.log('StartListener already stopped');
         }
     }
 
@@ -52,4 +52,4 @@ class Listener {
     }
 }
 
-module.exports = new Listener();
+module.exports = new StartListener();

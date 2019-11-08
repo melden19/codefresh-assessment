@@ -1,16 +1,11 @@
 const mongoose = require('mongoose');
 
-const BaseStorage = require('../Base');
+const BaseStorageLayer = require('../Base');
 const ContainerLog = require('./Log');
 const { mongo } = require('../../../config');
 const { getImageAndName } = require('../../helpers');
 
-class MongoStorageWrite extends BaseStorage.Write {
-    constructor(container) {
-        super();
-        this.container = container;
-    }
-
+class MongoStorageWrite extends BaseStorageLayer.Writer {
     onFinish() {
         this.containerLog.save();
     }
@@ -21,10 +16,10 @@ class MongoStorageWrite extends BaseStorage.Write {
             data: '',
             ...getImageAndName(this.container)
         });
-        await this._initMongo();
+        return this._initMongo();
     }
 
-    writeLog(log) {
+    write(log) {
         this.containerLog.data += log;
     }
 
@@ -33,6 +28,4 @@ class MongoStorageWrite extends BaseStorage.Write {
     }
 }
 
-module.exports = {
-    Write: MongoStorageWrite
-};
+module.exports = MongoStorageWrite;

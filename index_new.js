@@ -1,5 +1,4 @@
-const PipelineRunner = require('./src/PipelineRunner');
+const Engine = require('./src/engine');
 
-const pipelineRunner = new PipelineRunner();
-
-pipelineRunner.run();
+const engine = new Engine();
+engine.run();
