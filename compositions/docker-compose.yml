@@ -1,0 +1,25 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ../packages/server
+    depends_on:
+      - mongo
+    ports:
+      - 8080:8080
+  ui:
+    build:
+      context: ../packages/ui
+    ports:
+      - 3000:3000
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+    ports:
+      - 27017:27017
+    volumes:
+      - db-data:/data/db
+
+volumes:
+  db-data:

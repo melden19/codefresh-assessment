@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const BaseStorageLayer = require('../Base');
 const ContainerLog = require('./Log');
-const { mongo } = require('../../../config');
+const { mongo, debug } = require('../../../config');
 const { getImageAndName } = require('../../helpers');
 
 class MongoStorageWrite extends BaseStorageLayer.Writer {
     onFinish() {
-        this.containerLog.save();
+        this.containerLog.save().then(() => console.log('Saved successfully!')).catch(console.error);
     }
 
     async init() {
@@ -16,7 +16,10 @@ class MongoStorageWrite extends BaseStorageLayer.Writer {
             data: '',
             ...getImageAndName(this.container)
         });
-        return this._initMongo();
+
+        if (debug) {
+            return this._initMongo();
+        }
     }
 
     write(log) {

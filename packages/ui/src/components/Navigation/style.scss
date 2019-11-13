@@ -1,0 +1,19 @@
+.app-header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    .links {
+        width: 60%;
+        background: #EDFF86;
+        padding: 20px;
+
+        a {
+            color: #362C28;
+            margin: 10px;
+            &.active {
+                color: #9f7f34;
+            }
+        }
+    }
+}

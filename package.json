@@ -5,22 +5,21 @@
   "main": "_index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "engine": "node src/engine"
+    "engine": "node src/engine",
+    "start:prod": "docker-compose -f compositions/docker-compose.yml -f compositions/docker-compose.prod.yml up --build",
+    "start:dev": "docker-compose -f compositions/docker-compose.yml -f compositions/docker-compose.dev.yml up --build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@types/mongoose": "^5.5.29",
-    "dockerode": "^3.0.2",
-    "event-debug": "^2.1.0",
-    "express": "^4.17.1",
-    "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15",
-    "mongoose": "^5.7.8"
-  },
   "devDependencies": {
     "@types/dockerode": "^2.5.20",
-    "eslint": "^6.6.0"
+    "@types/mongoose": "^5.5.29",
+    "eslint": "^6.6.0",
+    "eslint-plugin-flowtype": "^4.4.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.2.0"
   }
 }

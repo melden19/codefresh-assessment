@@ -3,7 +3,7 @@ const _ = require('lodash');
 const yaml = require('js-yaml');
 const { docker, storageLayer } = require('../../../config');
 const startListener = require('../StartListener');
-const createStorageLayer = require('../../StorageLayer');
+const createStorageLayer = require('../../storageLayers');
 const { logContainer, normalizeId } = require('../../helpers');
 const Logger = require('../ContainerLogger');
 

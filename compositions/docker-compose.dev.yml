@@ -1,0 +1,22 @@
+version: '3'
+services:
+  server:
+    build:
+      args:
+        - environment=dev
+    volumes:
+      - ../packages/server/:/app
+    ports:
+      - 8080:8080
+    links:
+      - mongo
+  ui:
+    build:
+      args:
+        - environment=dev
+    volumes:
+      - ../packages/ui/:/app
+    ports:
+      - 3000:3000
+    links:
+      - server
