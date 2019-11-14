@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const BaseStorageLayer = require('../Base');
 const ContainerLog = require('./Log');
-const { mongo, debug } = require('../../../config');
+const { mongo } = require('../../../config');
 const { notFoundMessage } = require('../constants');
 
 class MongoStorageRead extends BaseStorageLayer.Reader {
     async init() {
-        if (debug) {
+        if (mongoose.connection.readyState === 0) {
             return this._initMongo();
         }
     }

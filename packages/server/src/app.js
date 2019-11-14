@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const chalk = require('chalk');
 
 const { mongo } = require('../config');
-const index = require('./routes/index');
+const index = require('./api/index');
 
 const app = express();
 const server = http.createServer(app);

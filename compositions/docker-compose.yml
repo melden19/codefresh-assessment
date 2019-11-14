@@ -3,10 +3,16 @@ services:
   server:
     build:
       context: ../packages/server
+    environment:
+      CONTAINER_TIMEOUT: 10000 # 10 sec
+
     depends_on:
       - mongo
     ports:
       - 8080:8080
+    volumes:
+      - /usr/bin/docker:/usr/bin/docker
+      - /var/run/docker.sock:/var/run/docker.sock
   ui:
     build:
       context: ../packages/ui

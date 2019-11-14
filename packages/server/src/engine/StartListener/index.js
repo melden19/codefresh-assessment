@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const { selector, docker } = require('../../../config');
+const { docker } = require('../../../config');
 
 class StartListener {
-    start(containerHandler) {
+    start(selector, containerHandler) {
         return new Promise((resolve, reject) => {
-            const filters = this._getApiFilter();
+            const filters = this._getApiFilter(selector);
             docker.getEvents({ filters }, (err, events) => {
                 if (err) {
                     reject(err);
@@ -13,7 +13,7 @@ class StartListener {
                     this.events = events;
                     events.on('data', (chunk) => {
                         const containerData = JSON.parse(chunk.toString());
-                        if (this._matchLocalFilters(containerData)) {
+                        if (this._matchLocalFilters(containerData, selector)) {
                             containerHandler(containerData)
                         }
                     });
@@ -35,7 +35,7 @@ class StartListener {
 
 
 
-    _matchLocalFilters(eventData) {
+    _matchLocalFilters(eventData, selector) {
         const name = _.get(eventData, 'Actor.Attributes.name');
         if (selector.nameRegex && name) {
             return (new RegExp(selector.nameRegex)).test(name);
@@ -43,10 +43,13 @@ class StartListener {
         return true;
     }
 
-    _getApiFilter() {
+    _getApiFilter(selector) {
         const filter = {};
         _.set(filter, 'event', ['start']);
-        _.set(filter, 'label', selector.labels);
+
+        if (selector.labels) {
+            _.set(filter, 'label', _.castArray(selector.labels));
+        }
 
         return JSON.stringify(filter);
     }

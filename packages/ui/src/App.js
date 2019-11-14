@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import Navigation from './components/Navigation';
 import AppRouter from './components/AppRouter';
+import AppStore from './App.store';
 import './App.scss';
 
 function App() {
   return (
-    <BrowserRouter>
-        <div className="App">
-            <Navigation />
-            <div className="page-layout">
-                <AppRouter />
+    <AppStore>
+        <BrowserRouter>
+            <div className="App">
+                <Navigation />
+                <div className="page-layout">
+                    <AppRouter />
+                </div>
             </div>
-        </div>
-    </BrowserRouter>
+        </BrowserRouter>
+    </AppStore>
   );
 }
 

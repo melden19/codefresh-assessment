@@ -1,26 +1,12 @@
 steps:
-#  step_2:
-#    image: docker/whalesay
-#    commands:
-#      - sleep
-#      - '2'
-#  step_3:
-#    image: docker/whalesay
-#    commands:
-#      - sleep
-#      - '2'
-#  step_4:
-#    image: docker/whalesay
-#    commands:
-#      - sleep
-#      - '2'
   step_3:
-    image: docker/whalesay
-    commands:
-      - cowsay
-      - hi
+    image: node:10
+    cmd:
+      - node
+      - --eval
+      - "console.log('test')"
   step_4:
     image: docker/whalesay
-    commands:
+    cmd:
       - cowsay
       - hi

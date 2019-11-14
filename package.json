@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "engine": "node src/engine",
     "start:prod": "docker-compose -f compositions/docker-compose.yml -f compositions/docker-compose.prod.yml up --build",
-    "start:dev": "docker-compose -f compositions/docker-compose.yml -f compositions/docker-compose.dev.yml up --build"
+    "start:dev": "docker-compose -f compositions/docker-compose.yml -f compositions/docker-compose.dev.yml up --build",
+    "start:server": "docker-compose -f compositions/docker-compose.yml -f compositions/docker-compose.dev.yml up --build server"
   },
   "keywords": [],
   "author": "",

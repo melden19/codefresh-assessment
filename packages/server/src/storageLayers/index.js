@@ -21,8 +21,7 @@ module.exports = function (layer, kind, ...args) {
 
         const layerName = layerMapper[layer];
         if (!layerName) {
-            console.warn('Wrong storage type, logging to stdout');
-            return new require('./Base')[_.capitalize(kind)](...args);
+            throw new Error('Wrong storage type');
         }
 
         const SpecificStorageLayer = require(`./${layerName}/${layerName}.${kind}`);

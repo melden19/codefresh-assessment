@@ -17,10 +17,10 @@ const mongo = {};
 if (process.env.NODE_ENV === 'prod') {
     mongo.uri = process.env.MONGO_URI || 'mongodb://localhost:27017/docker-logger';
 } else {
-    mongo.uri = `mongodb://${debug ? 'localhost' : 'mongo'}/docker-logger`
+    mongo.uri = `mongodb://${debug ? 'localhost:27017' : 'mongo'}/docker-logger`
 }
 
-const containerTimeout = 1000 * 60 * process.env.CONTAINER_TIMEOUT || 10;   //  default 10 min
+const containerTimeout = process.env.CONTAINER_TIMEOUT || 20000;   //  default 20 sec
 const availableStorageLayers = ['fs', 'mongo'];
 
 module.exports = {

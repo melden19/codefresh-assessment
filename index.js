@@ -18,8 +18,5 @@ dockerdListener.start(container => {
 // storage.init().then(() => {
 //     storage.read().then(res => {
 //         console.log(res);
-//         const a = process._getActiveHandles();
-//         const b = process._getActiveRequests();
-//         console.log(a, b);
 //     });
 // });

@@ -4,7 +4,7 @@ import './style.scss';
 
 const Navigation = () => {
     return (
-        <header class="app-header">
+        <header className="app-header">
             <div className="links">
                 <NavLink to="/logs">Logs</NavLink>
                 <NavLink to="/pipeline">Pipeline</NavLink>

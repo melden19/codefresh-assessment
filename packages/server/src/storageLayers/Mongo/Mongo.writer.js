@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const BaseStorageLayer = require('../Base');
 const ContainerLog = require('./Log');
-const { mongo, debug } = require('../../../config');
+const { mongo } = require('../../../config');
 const { getImageAndName } = require('../../helpers');
 
 class MongoStorageWrite extends BaseStorageLayer.Writer {
@@ -17,7 +17,7 @@ class MongoStorageWrite extends BaseStorageLayer.Writer {
             ...getImageAndName(this.container)
         });
 
-        if (debug) {
+        if (mongoose.connection.readyState === 0) {
             return this._initMongo();
         }
     }

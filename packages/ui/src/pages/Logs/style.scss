@@ -1,8 +1,9 @@
-.response {
-    border: 1px solid black;
-    padding: 20px;
-    white-space: pre-wrap;
-    .error {
-        color: red;
+.logs-page {
+    .response {
+        border: 1px solid black;
+        padding: 20px;
+        .error {
+            color: red;
+        }
     }
 }

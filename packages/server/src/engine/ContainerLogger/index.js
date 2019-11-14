@@ -1,6 +1,5 @@
 const { promisify } = require('util');
-const eventDebug = require('event-debug');
-const { logContainer, delay } = require('../../helpers');
+const { logContainer } = require('../../helpers');
 const { docker } = require('../../../config');
 
 class ContainerLogger {
@@ -12,6 +11,7 @@ class ContainerLogger {
 
     async run() {
         try {
+            await this._initStorageLayer();
             await this._exec();
         } catch(err) {
             console.error('Failed to run ContainerLogger', err);
@@ -24,8 +24,6 @@ class ContainerLogger {
 
     async _exec() {
         const stream = await this._attachToContainer();
-        await this._initStorageLayer();
-        eventDebug(stream);
 
         stream.on('end', () => {
             this.storage.stream.end();
