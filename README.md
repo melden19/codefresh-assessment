@@ -6,6 +6,7 @@
 2. yarn
 3. docker
 4. docker-compose
+5. Be sure that docker binary and docker.sock paths within docker-compose.yml match your local
 
 ### Steps to run demo
 1. Be sure that port 3000 and 8080 is not used
