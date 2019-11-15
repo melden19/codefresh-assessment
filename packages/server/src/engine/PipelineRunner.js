@@ -2,13 +2,14 @@ const { readFileSync } = require('fs');
 const { execSync } = require('child_process');
 const _ = require('lodash');
 const yaml = require('js-yaml');
-const { docker, containerTimeout } = require('../../../config');
-const startListener = require('../StartListener');
-const createStorageLayer = require('../../storageLayers');
-const { normalizeId, logContainer } = require('../../helpers');
-const Logger = require('../ContainerLogger');
+const uuid = require('uuid/v4');
+const { docker, containerTimeout } = require('../../config');
+const startListener = require('./startListener');
+const createStorageLayer = require('../storageLayers');
+const { normalizeId, logContainer } = require('../helpers');
+const Logger = require('./ContainerLogger');
 
-const STEP_LABEL = 'codefresh-assessment-pipeline-step';
+const STATIC_STEP_LABEL = 'codefresh-assessment-pipeline-step';
 
 class PipelineRunner {
     constructor(settings = {}) {
@@ -16,6 +17,11 @@ class PipelineRunner {
         this.path = path || './pipeline.yml';
         this.pipeline = pipeline;
         this.storageLayer = storageLayer;
+
+        //  to prevent step name conflicts
+        this.pipelineSalt = uuid();
+        //  label for startListener to listen for
+        this.stepLabel = `${STATIC_STEP_LABEL}-${this.pipelineSalt}`;
     }
 
     async run() {
@@ -27,16 +33,17 @@ class PipelineRunner {
 
             await this._initListener();
 
-            for (const [key, value] of Object.entries(pipeline.steps)) {
-                const container = await this._runStep({ name: key, ...value });
+            for (const [stepName, stepMeta] of Object.entries(pipeline.steps)) {
+
+                const container = await this._runStep({ name: stepName, ...stepMeta });
                 normalizeId(container);
-                executionResult.push({ name: key, ...container });
+                executionResult.push({ name: stepName, ...container });
 
                 if (container.exitCode > 0) {
                     if (container.exitCode === 143) {
-                        throw new Error(`Container was stopped cause of predefined max execution timeout: ${containerTimeout / 1000} sec`);
+                        throw new Error(`Step ${stepName} was terminated cause of predefined max execution timeout: ${containerTimeout / 1000} sec`);
                     }
-                    throw new Error(`Pipeline failed on step ${key} with status code ${container.statusCode}`);
+                    throw new Error(`Pipeline failed on step ${stepName} with status code ${container.statusCode}`);
                 }
             }
             console.log('Pipeline run successfully');
@@ -55,11 +62,11 @@ class PipelineRunner {
 
         try {
             const container = await docker.createContainer({
-                name,
+                name: `${this.pipelineSalt}-${name}`,
                 Image,
                 Cmd,
                 Labels: {
-                    meta: STEP_LABEL
+                    meta: this.stepLabel
                 }
             });
             const output = await container.start();
@@ -108,7 +115,7 @@ class PipelineRunner {
     }
 
     _initListener() {
-        return startListener.start({ labels: [`meta=${STEP_LABEL}`] }, async (container) => {
+        return startListener.start({ labels: [`meta=${this.stepLabel}`] }, async (container) => {
             normalizeId(container);
             logContainer('Attaching to container', container);
 

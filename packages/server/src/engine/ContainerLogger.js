@@ -1,6 +1,6 @@
 const { promisify } = require('util');
-const { logContainer } = require('../../helpers');
-const { docker } = require('../../../config');
+const { logContainer } = require('../helpers');
+const { docker } = require('../../config');
 
 class ContainerLogger {
     constructor(id, storage) {
@@ -35,7 +35,7 @@ class ContainerLogger {
 
     _attachToContainer() {
         const attach = promisify(this.container.attach.bind(this.container));
-        return attach({stream: true, stdout: true, stderr: true, logs: true, tty: true});
+        return attach({stream: true, stdout: true, stderr: true, logs: true});
     }
 }
 

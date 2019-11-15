@@ -6,17 +6,12 @@ services:
         - environment=dev
     volumes:
       - ../packages/server/:/app
-    ports:
-      - 8080:8080
-    links:
-      - mongo
   ui:
     build:
       args:
         - environment=dev
     volumes:
       - ../packages/ui/:/app
+  mongo:
     ports:
-      - 3000:3000
-    links:
-      - server
+      - 27017:27017

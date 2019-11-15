@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { docker } = require('../../../config');
+const { docker } = require('../../config');
 
 class StartListener {
     start(selector, containerHandler) {

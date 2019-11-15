@@ -12,8 +12,6 @@ const Pipeline = () => {
         storageLayer.set(e.target.value);
     }, [storageLayer]);
 
-    console.log(store.pipeline);
-
     const runPipeline = useCallback(() => {
         loading.set(true);
 

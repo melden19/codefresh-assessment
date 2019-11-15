@@ -2,9 +2,24 @@ import React, { useState, useCallback } from 'react'
 
 export const Store = React.createContext();
 
+const demoPipeline = `\
+steps:
+  step_1:
+    image: node:10
+    cmd:
+      - node
+      - --eval
+      - "console.log('test')"
+  step_2:
+    image: docker/whalesay
+    cmd:
+      - cowsay
+      - hi
+`;
+
 const AppStore = ({ children }) => {
     //  pipeline
-    const pipeline = useState('');
+    const pipeline = useState(demoPipeline);
     const runResponse = useState('');
     const runError = useState('');
     const runLoading = useState(false);
